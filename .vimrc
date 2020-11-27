@@ -6,46 +6,62 @@ set autoindent
 set tags=./tags,tags;$HOME
 set nocompatible
 filetype plugin on
+colo Will2
 set timeoutlen=150
 set ttimeoutlen=1
 
 ""Global settings
 inore <Tab><Space> <Tab>
-inoremap <Tab> <Esc>`^
-nnoremap ]] :vert winc ]<Enter>
-nnoremap [[ :wq<Enter>
-nnoremap gh :vert wincmd f<CR>
+inore <Tab> <Esc>`^
+nnore `] :vert winc ]<Enter>
+nnore `[ :wq<Enter>
+nnore gh :vert wincmd f<CR>
 nnore <S-h> :bN<Enter>
 nnore <S-l> :bn<Enter>
+nnore <Space> za
 set splitright
 set splitbelow
 set foldmethod=indent
-set foldlevel=99
+set foldlevel=2
+set linebreak
 ""LaTeX
-autocmd FileType tex inoremap ;<Space> <Esc>/<++><Enter>"_4dli
-autocmd FileType tex inoremap ;$ $$<Enter><Enter>$$<Enter><++><Esc>kki
-autocmd FileType tex inoremap ;a \begin{array}{}<Enter>\end{array}<Enter><++><Esc>2k$i
-autocmd FileType tex inoremap ;m \big[<Enter>\begin{smallmatrix}<Enter><Enter>\end{smallmatrix}<Enter>\big]<++><Esc>2ki<Tab>
-autocmd FileType tex inoremap ;r \mathbb{R}
-autocmd FileType tex inoremap ;z \mathbb{Z}
-autocmd FileType tex inoremap ;i \begin{itemize}<Enter><Enter>\end{itemize}<Enter><++><Esc>2ki<Tab>
-autocmd FileType tex inoremap ;e \begin{enumerate}<Enter><Enter>\end{enumerate}<Enter><++><Esc>2ki<Tab>
+au FileType tex inore ;<Space> <Esc>/<++><Enter>"_4dli
+au FileType tex inore ;$ $$<Enter><Enter>$$<Enter><++><Esc>kki
+au FileType tex inore ;a \begin{array}{}<Enter>\end{array}<Enter><++><Esc>2k$i
+""au FileType tex inore ii \item<Space>
+au FileType tex inore ;m \big[<Enter>\begin{smallmatrix}<Enter><Enter>\end{smallmatrix}<Enter>\big]<++><Esc>2ki<Tab>
+au FileType tex inore ;r \mathbb{R}
+au FileType tex inore ;z \mathbb{Z}
+au FileType tex inore ;i \begin{itemize}<Enter><Enter>\end{itemize}<Enter><++><Esc>2ki<Tab>
+au FileType tex inore ;e \begin{enumerate}<Enter><Enter>\end{enumerate}<Enter><++><Esc>2ki<Tab>
+au FileType tex nnore j gj
+au FileType tex nnore k gk
 
 ""C++
-autocmd FileType cpp inoremap `<Space> <Esc>/<++><Enter>"_4cl
-autocmd FileType cpp inoremap `i #include <><++><Esc>4hi
-autocmd FileType cpp inoremap `u using namespace std;<Enter>
-autocmd FileType cpp nnoremap co I//<Esc>
-autocmd FileType cpp nnoremap cu ^xx
-autocmd FileType cpp nnoremap zf j[[kzt``k
-autocmd FileType cpp nnoremap <Space> za
+au FileType cpp inore `<Space> <Esc>/<++><Enter>"_4cl
+au FileType cpp inore `i #include <><++><Esc>4hi
+au FileType cpp inore `u using namespace std;<Enter>
+au FileType cpp nnore co I//<Esc>
+au FileType cpp nnore cu ^xx
+au FileType cpp nnore zf j[[kzt``k
+au FileType cpp nnore `] :vert winc ]<Enter>
 
 ""C
-autocmd FileType c nnoremap co I//<Esc>
-autocmd FileType c nnoremap cu ^xx
-autocmd FileType c nnoremap zf j[[kzt``k
-autocmd FileType c nnoremap <Space> za
+au FileType c nnore co I//<Esc>
+au FileType c nnore cu ^xx
+au FileType c nnore zf j[[kzt``k
+au FileType c nnore `] :vert winc ]<Enter>
 ""Python
-autocmd FileType python nnoremap co I#<esc>
-autocmd FileType python nnoremap cu ^x
-au FileType python nnoremap <Space> za
+au FileType python nnore co I#<esc>
+au FileType python nnore cu ^x
+au FileType python nnore `] :vert winc ]<Enter>
+au FileType python nnore `[ :wq<Enter>
+
+" WSL yank support
+let s:clip = '/mnt/c/Windows/System32/clip.exe'  " change this path according to your mount point
+if executable(s:clip)
+	augroup WSLYank
+		au!
+		au TextYankPost * if v:event.operator ==# 'y' | call system(s:clip, @0) | endif
+	augroup END
+endif
