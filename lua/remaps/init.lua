@@ -1,0 +1,6 @@
+require("remaps.latex")
+require("remaps.cpp")
+require("remaps.c")
+require("remaps.c")
+require("remaps.python")
+require("remaps.spice")
