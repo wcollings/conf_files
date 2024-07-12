@@ -17,23 +17,31 @@ vim.g.coc_disable_startup_warning=1
 vim.cmd([[
 call plug#begin('~/.local/share/nvim/site/autoload')
 Plug 'git@github.com:terrortylor/nvim-comment.git'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'vim-scripts/taglist.vim'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'cespare/vim-toml', { 'branch': 'main' }
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'ray-x/aurora' 
+Plug 'folke/tokyonight.nvim'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'tpope/vim-surround'
+Plug 'wellle/context.vim'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'neovim/nvim-lspconfig'
 call plug#end()
 ]])
-vim.cmd("colorscheme aurora")
+vim.cmd("colorscheme tokyonight")
 vim.g.aurora_transparent=1
-vim.api.nvim_set_keymap("i","<Tab><Space>","<Tab>",{ noremap=true})
-vim.api.nvim_set_keymap("i","<Tab>","<Esc>",{ noremap=true})
-vim.api.nvim_set_keymap("n","`]",":horiz winc ] <cr>",{ noremap=true})
-vim.api.nvim_set_keymap("n","`]",":horiz winc ] <cr>",{ noremap=true})
-vim.api.nvim_set_keymap("n","`[",":wq<cr>",{ noremap=true})
-vim.api.nvim_set_keymap("n","gh",":horiz wincmd f<cr>",{ noremap=true})
-vim.api.nvim_set_keymap("n","<S-h>",":bN<cr>",{ noremap=true})
-vim.api.nvim_set_keymap("n","<S-l>",":bn<cr>",{ noremap=true})
-vim.api.nvim_set_keymap("n","<Space>","za",{ noremap=true})
+vim.g.wildmode="longest,list,full"
+vim.g.wildmenu=true
 
+vim.api.nvim_create_autocmd("TextYankPost", {
+	callback=function() vim.highlight.on_yank() end,
+})
+vim.api.nvim_create_autocmd('BufWinEnter', {
+  pattern='*',
+  command= 'silent! normal! g`"zv',
+})
 require("remaps")
+require'lspconfig'.pyright.setup{}
+require'lspconfig'.clangd.setup{}
