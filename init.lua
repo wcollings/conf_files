@@ -13,7 +13,6 @@ set ttimeoutlen=1
 set mouse=
 ]])
 
-vim.g.coc_disable_startup_warning=1
 vim.cmd([[
 call plug#begin('~/.local/share/nvim/site/autoload')
 Plug 'git@github.com:terrortylor/nvim-comment.git'
@@ -43,5 +42,3 @@ vim.api.nvim_create_autocmd('BufWinEnter', {
   command= 'silent! normal! g`"zv',
 })
 require("remaps")
-require'lspconfig'.pyright.setup{}
-require'lspconfig'.clangd.setup{}
