@@ -82,3 +82,7 @@ vim.api.nvim_create_autocmd("FileType", {
         vim.keymap.set('n','k','gk',{noremap=true})
     end
 })
+vim.api.nvim_create_autocmd({"BufEnter","BufWinEnter"}, {
+    pattern='*.tex',
+	 command="set linebreak"
+})
